@@ -1,0 +1,16 @@
+{
+  "name": "Katalog Produk Elitech",
+  "short_name": "Elitech",
+  "description": "Katalog produk Elitech: harga marketplace, promo berjalan, garansi, dan isi paket.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#00332F",
+  "theme_color": "#00332F",
+  "icons": [
+    { "src": "assets/Icon%20192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/Icon%20512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
