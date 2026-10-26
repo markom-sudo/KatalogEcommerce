@@ -266,6 +266,109 @@ dl.spec dt:first-of-type,dl.spec dt:first-of-type+dd{border-top:0}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* ============================================================
+   TAMBAHAN: hero slider, galeri geser, mobile ala e-commerce
+   ============================================================ */
+html{-webkit-tap-highlight-color:transparent}
+.card,.chip,.btn,.promo-card{touch-action:manipulation}
+.hero-ctl{display:flex;align-items:center;gap:14px;margin-top:30px}
+.hero-ctl .hero-dots{margin-top:0}
+.hero-arrow{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;transition:border-color .15s,background .15s}
+.hero-arrow:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+.listbar{display:none}
+
+.gal-main{padding:0;touch-action:auto}
+.gal-track{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-slide{flex:0 0 100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;padding:5%;display:flex;align-items:center;justify-content:center;background:#fff}
+.gal-slide img{width:100%;height:100%;object-fit:contain}
+.gal-slide.noimg{padding:0}
+.buybar{display:none}
+.bb-price{flex:1;min-width:0;line-height:1.15}
+.bb-price b{display:block;font-family:var(--display);font-size:19px}
+.bb-price b.sale{color:var(--sale)}
+.bb-price s{font-size:12.5px;color:var(--muted)}
+.bb-share{flex:none;width:48px;height:48px;border-radius:12px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:20px;background:#fff}
+
+@media (max-width:760px){
+  dialog.sheet{width:100%;max-width:100%;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;border-radius:0;margin:0}
+  .sheet-scroll{display:block;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+  .sheet-x{top:calc(10px + env(safe-area-inset-top));right:12px;width:44px;height:44px;background:rgba(255,255,255,.94);box-shadow:0 1px 6px rgba(0,0,0,.18);border-color:transparent}
+  .gal{position:static;padding:0}
+  .gal-main{border-radius:0;border:0;border-bottom:1px solid var(--line)}
+  .gal-nav,.thumbs{display:none}
+  .gal-no{right:12px;bottom:12px;font-size:13px;padding:2px 10px}
+  .info{padding:16px 16px 20px}
+  .info .cat,.info h2{padding-right:0}
+  .info h2{font-size:1.35rem}
+  .sec{margin-top:18px}
+  .price-buy{display:none}
+  .buybar{display:flex;align-items:center;gap:10px;position:absolute;left:0;right:0;bottom:0;z-index:7;background:#fff;border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+  .buybar .btn{flex:0 0 auto;min-width:158px;height:48px;border-radius:12px}
+  ul.pack{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:700px){
+  :root{--hh:56px}
+  .wrap{padding:0 12px}
+  .site-header .wrap{gap:10px}
+  .search input{height:40px;font-size:16px;padding-left:40px}
+  .search .i{left:13px}
+
+  .hero{padding:12px 0 14px;border-radius:0 0 22px 22px}
+  .hero-slide{grid-template-columns:minmax(0,1fr) 118px;gap:12px;align-items:center}
+  .hero-art{order:0;width:118px;max-width:118px;justify-self:end}
+  .hero-art::before{display:none}
+  .hero-plate{border-radius:18px;padding:6%}
+  .pill{font-size:12px;padding:3px 10px 3px 9px}
+  .hero h1{font-size:1.4rem;margin-top:8px;line-height:1.1}
+  .hero .var{font-size:13px;margin-top:3px}
+  .hero .desc,.hero ul.feat{display:none}
+  .hero .price-row{margin-top:8px}
+  .hero .price{font-size:1.3rem}
+  .hero .strike{font-size:13px}
+  .hero .promo-line{font-size:12.5px;margin-top:4px}
+  .facts{margin-top:8px;gap:6px}
+  .fact{font-size:12px;padding:3px 9px;border-radius:9px}
+  .fact .i{font-size:14px}
+  .cta{margin-top:10px}
+  .cta .btn-line{display:none}
+  .cta .btn{height:40px;font-size:14px;padding:0 16px;flex:0 0 auto}
+  .hero-ctl{margin-top:12px;justify-content:center}
+  .hero-arrow{display:none}
+  .hero-dots button{width:16px;height:5px}
+  .hero-dots button[aria-current="true"]{width:30px}
+
+  .promos{margin-top:14px}
+  .promo-card{min-width:208px;padding:10px 12px;border-radius:14px}
+  .promo-card b{font-size:16px}
+  .promo-card span{font-size:13px}
+
+  .toolbar{margin-top:14px}
+  .toolbar .wrap{padding-top:8px;padding-bottom:8px}
+  .tools{display:none}
+  .chip{height:40px;padding:0 14px;font-size:15px}
+  .listbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;padding-bottom:2px}
+  .sel{height:44px;font-size:16px;border-radius:12px}
+  .listbar .count{text-align:left}
+
+  main{padding:8px 0 calc(32px + env(safe-area-inset-bottom))}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .card{border-radius:12px}
+  .thumb{padding:6%}
+  .card-body{padding:8px 10px 11px;gap:3px}
+  .cat{display:none}
+  .name{font-size:13.5px;line-height:1.25;font-weight:600}
+  .vr{font-size:12.5px}
+  .war{font-size:11.5px;padding:1px 6px}
+  .pr{padding-top:5px}
+  .pr .now{font-size:16.5px}
+  .pr .old{font-size:12px}
+  .tag{top:6px;left:6px;font-size:12px;padding:2px 7px;border-radius:7px}
+  .tag.out{bottom:6px;top:auto;font-size:11.5px}
+  footer{padding:20px 0 calc(20px + env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
@@ -312,6 +415,12 @@ dl.spec dt:first-of-type,dl.spec dt:first-of-type+dd{border-top:0}
   </div>
 </div>
 
+<div class="wrap listbar">
+  <span class="count" id="count2"></span>
+  <label class="sr" for="sort2">Urutkan</label>
+  <select class="sel" id="sort2"></select>
+</div>
+
 <main>
   <div class="wrap">
     <div class="grid" id="grid" aria-live="polite">
@@ -331,6 +440,7 @@ dl.spec dt:first-of-type,dl.spec dt:first-of-type+dd{border-top:0}
 <dialog class="sheet" id="sheet" aria-label="Detail produk">
   <button class="sheet-x" id="sheetX" aria-label="Tutup"><svg class="i" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   <div class="sheet-scroll" id="sheetBody"></div>
+  <div class="buybar" id="buybar"></div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
 
@@ -346,8 +456,8 @@ var CONFIG = {
   // true  = tampilkan harga coret marketplace (mis. Rp630.000 -> Rp600.000) walau bukan promo
   // false = hanya tampilkan potongan kalau ada promo berjalan
   SHOW_HARGA_CORET: true,
-  // Pergantian hero otomatis (ms) bila HERO_SKU berisi lebih dari satu produk
-  HERO_INTERVAL: 7000
+  // Pergantian hero otomatis (ms) bila ada lebih dari 1 produk bertanda TRUE di kolom P
+  HERO_INTERVAL: 8000
 };
 /* ============================================================ */
 
@@ -477,6 +587,8 @@ function priceBlock(h, cls) {
 }
 
 /* ---------- HERO ---------- */
+var heroN = 0, hp = { hover: false, focus: false, touch: false };
+function heroPaused() { return hp.hover || hp.focus || hp.touch; }
 function heroSlide(p, i) {
   var h = p._main;
   var pill = HERO.otomatis ? 'Produk terbaru' : 'Pilihan Elitech';
@@ -486,7 +598,7 @@ function heroSlide(p, i) {
   if (p.garansi) facts += '<span class="fact">' + ICON.shield + 'Garansi ' + p.garansi + ' bulan</span>';
   if (p.paket && p.paket.length) facts += '<span class="fact">' + ICON.box + 'Isi paket ' + p.paket.length + ' item</span>';
   var buy = p.link ? '<a class="btn btn-line" href="' + esc(p.link) + '" target="_blank" rel="noopener">' + buyLabel(p.link) + ' ' + ICON.ext + '</a>' : '';
-  return '<div class="hero-slide' + (i === heroIdx ? ' on' : '') + '" data-i="' + i + '">' +
+  return '<div class="hero-slide' + (i === heroIdx ? ' on' : '') + '" data-i="' + i + '"' + (i === heroIdx ? '' : ' aria-hidden="true"') + '>' +
     '<div class="hero-copy">' +
       '<span class="pill">' + pill + '</span>' +
       '<h1>' + esc(p.nama) + '</h1>' +
@@ -507,29 +619,37 @@ function renderHero() {
   var box = $('hero');
   var list = HERO.skus.map(function (s) { return BY[s]; }).filter(Boolean);
   if (!list.length) { box.closest('.hero').style.display = 'none'; return; }
-  heroIdx = 0;
-  var html = list.map(heroSlide).join('');
-  if (list.length > 1) {
-    html += '<div class="hero-dots" role="group" aria-label="Pilih produk pilihan">' +
-      list.map(function (p, i) { return '<button data-hero="' + i + '" aria-label="' + esc(p.nama) + '"' + (i === 0 ? ' aria-current="true"' : '') + '></button>'; }).join('') + '</div>';
+  heroIdx = 0; heroN = list.length;
+  var html = '<div class="hero-slides">' + list.map(heroSlide).join('') + '</div>';
+  if (heroN > 1) {
+    html += '<div class="hero-ctl"><button class="hero-arrow" data-hstep="-1" aria-label="Produk sebelumnya">' + ICON.left + '</button>' +
+      '<div class="hero-dots" role="group" aria-label="Pilih produk pilihan">' +
+      list.map(function (p, i) { return '<button data-hero="' + i + '" aria-label="' + esc(p.nama) + '"' + (i === 0 ? ' aria-current="true"' : '') + '></button>'; }).join('') +
+      '</div><button class="hero-arrow" data-hstep="1" aria-label="Produk berikutnya">' + ICON.right + '</button></div>';
   }
   box.innerHTML = html;
-  if (list.length > 1 && !reduceMotion) startHero(list.length);
+  startHero();
 }
 function showHero(i) {
-  heroIdx = i;
+  if (heroN < 2) return;
+  heroIdx = (i + heroN) % heroN;
   [].forEach.call(document.querySelectorAll('.hero-slide'), function (el) {
-    var on = +el.dataset.i === i;
+    var on = +el.dataset.i === heroIdx;
     el.classList.toggle('on', on); el.classList.toggle('fade', on);
+    if (on) el.removeAttribute('aria-hidden'); else el.setAttribute('aria-hidden', 'true');
   });
   [].forEach.call(document.querySelectorAll('.hero-dots button'), function (b) {
-    if (+b.dataset.hero === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    if (+b.dataset.hero === heroIdx) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
   });
 }
-function startHero(n) {
+function startHero() {            // (re)mulai hitung mundur 8 detik
   clearInterval(heroTimer);
-  heroTimer = setInterval(function () { showHero((heroIdx + 1) % n); }, CONFIG.HERO_INTERVAL);
+  if (heroN < 2) return;
+  heroTimer = setInterval(function () {
+    if (!heroPaused() && !document.hidden) showHero(heroIdx + 1);
+  }, CONFIG.HERO_INTERVAL);
 }
+function heroGo(i) { showHero(i); startHero(); }   // kontrol manual: geser lalu hitung ulang 8 detik
 
 /* ---------- PROMO STRIP ---------- */
 function campaigns() {
@@ -605,7 +725,7 @@ function card(p, tk) {
 }
 function renderGrid() {
   var list = filtered(), tk = tokens();
-  $('count').textContent = list.length + ' produk';
+  $('count').textContent = $('count2').textContent = list.length + ' produk';
   $('grid').innerHTML = list.length ? list.map(function (p) { return card(p, tk); }).join('') :
     '<div class="empty"><b>Produk tidak ditemukan</b>Coba kata kunci lain atau hapus filter yang aktif.' +
     '<br><button class="btn btn-teal btn-sm" data-reset>Hapus pencarian dan filter</button></div>';
@@ -642,22 +762,41 @@ function linkPlatform(link) {
   return '';
 }
 var gal = { p: null, i: 0 };
-function setGal(i) {
-  var f = gal.p.foto; if (!f.length) return;
-  gal.i = (i + f.length) % f.length;
-  var main = $('galMain');
-  main.classList.remove('noimg');
-  main.querySelectorAll('img').forEach(function (n) { n.remove(); });
-  main.insertAdjacentHTML('afterbegin', img(f[gal.i], 1000, gal.p.nama, false));
-  var no = $('galNo'); if (no) no.textContent = (gal.i + 1) + ' / ' + f.length;
-  [].forEach.call(document.querySelectorAll('.thumbs button'), function (b, k) {
-    if (k === gal.i) { b.setAttribute('aria-current', 'true'); b.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
-    else b.removeAttribute('aria-current');
+function markGal(i) {
+  gal.i = i;
+  var no = $('galNo'); if (no) no.textContent = (i + 1) + ' / ' + gal.p.foto.length;
+  [].forEach.call(document.querySelectorAll('.thumbs button'), function (b) {
+    if (+b.dataset.thumb === i) {
+      b.setAttribute('aria-current', 'true');
+      var c = b.parentElement; c.scrollLeft = b.offsetLeft - c.clientWidth / 2 + b.clientWidth / 2;
+    } else b.removeAttribute('aria-current');
   });
+}
+function setGal(i) {
+  var t = $('galTrack'); if (!t) return;
+  var n = gal.p.foto.length; i = (i + n) % n;
+  t.scrollTo({ left: i * t.clientWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
+  markGal(i);
+}
+function bindGal() {
+  var t = $('galTrack'); if (!t) return;
+  t.addEventListener('scroll', function () {
+    var i = Math.round(t.scrollLeft / (t.clientWidth || 1));
+    if (i !== gal.i && i >= 0 && i < gal.p.foto.length) markGal(i);
+  }, { passive: true });
+}
+function buybarHtml(p) {
+  var h = p._main;
+  var price = h ? '<div class="bb-price"><b class="' + (h.promo ? 'sale' : '') + '">' + rp(h.final) + '</b>' +
+    (h.coret && (h.promo || CONFIG.SHOW_HARGA_CORET) ? '<s>' + rp(h.coret) + '</s>' : '') + '</div>' : '<div class="bb-price"></div>';
+  var buy = p.link ? '<a class="btn btn-teal" href="' + esc(p.link) + '" target="_blank" rel="noopener">' + buyLabel(p.link) + '</a>' : '';
+  return '<button class="bb-share" id="shareBtn2" aria-label="Bagikan produk">' + ICON.share + '</button>' + price + buy;
 }
 function detail(p) {
   var f = p.foto, multi = f.length > 1;
-  var gallery = '<div class="gal"><div class="gal-main' + (f.length ? '' : ' noimg') + '" id="galMain">' + (f.length ? img(f[0], 1000, p.nama, false) : '') +
+  var slides = f.map(function (r, i) { return '<div class="gal-slide">' + img(r, 1000, p.nama, i > 0) + '</div>'; }).join('');
+  var gallery = '<div class="gal"><div class="gal-main' + (f.length ? '' : ' noimg') + '" id="galMain">' +
+    (f.length ? '<div class="gal-track" id="galTrack" tabindex="0" aria-label="Foto produk, geser untuk melihat foto lain">' + slides + '</div>' : '') +
     (multi ? '<button class="gal-nav p" data-gal="-1" aria-label="Foto sebelumnya">' + ICON.left + '</button><button class="gal-nav n" data-gal="1" aria-label="Foto berikutnya">' + ICON.right + '</button><span class="gal-no" id="galNo">1 / ' + f.length + '</span>' : '') +
     '</div>' +
     (multi ? '<div class="thumbs">' + f.map(function (r, i) {
@@ -667,7 +806,6 @@ function detail(p) {
   var best = p._promo;
   var promoBox = best ? '<div class="promo-box"><b>' + esc(best.nama) + '</b><br>Hemat hingga ' + best.pct + '%. ' + leftText(best.selesai) + ' (sampai ' + fmtDate(best.selesai) + ')</div>' : '';
 
-  var lp = p.link ? linkPlatform(p.link) : '';
   var rows = p.harga.map(function (h) {
     var sale = !!h.promo, showOld = h.coret && (sale || CONFIG.SHOW_HARGA_CORET);
     return '<div class="plat-row"><span class="dot" style="background:' + (PLATFORM_DOT[h.p] || '#888') + '"></span>' +
@@ -675,7 +813,7 @@ function detail(p) {
       '<span class="plat-p"><b class="' + (sale ? 'sale' : '') + '">' + rp(h.final) + '</b>' + (showOld ? '<s>' + rp(h.coret) + '</s>' : '') + '</span></div>';
   }).join('');
   var priceSec = p.harga.length ? '<div class="sec"><h3>Harga di marketplace</h3><div class="plat">' + rows + '</div>' +
-    '<div class="buy">' + (p.link ? '<a class="btn btn-teal" href="' + esc(p.link) + '" target="_blank" rel="noopener">' + buyLabel(p.link) + ' ' + ICON.ext + '</a>' : '') +
+    '<div class="buy price-buy">' + (p.link ? '<a class="btn btn-teal" href="' + esc(p.link) + '" target="_blank" rel="noopener">' + buyLabel(p.link) + ' ' + ICON.ext + '</a>' : '') +
     '<button class="btn btn-ghost" id="shareBtn">' + ICON.share + ' Bagikan</button></div>' +
     (p.tersedia === false ? '<div class="stock-note">Stok sedang habis.</div>' : '') + '</div>' : '';
 
@@ -708,7 +846,9 @@ function openSheet(sku, noHash) {
   var p = BY[sku]; if (!p) return;
   gal.p = p; gal.i = 0;
   $('sheetBody').innerHTML = detail(p);
+  $('buybar').innerHTML = buybarHtml(p);
   $('sheetBody').scrollTop = 0;
+  bindGal();
   if (!sheet.open) { sheet.showModal(); document.documentElement.style.overflow = 'hidden'; }
   if (!noHash) history.replaceState(null, '', '#' + encodeURIComponent(sku));
   document.title = p.nama + ' | Katalog Elitech';
@@ -720,19 +860,12 @@ sheet.addEventListener('close', function () {
 });
 sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
 $('sheetX').addEventListener('click', function () { sheet.close(); });
-
 $('sheetBody').addEventListener('click', function (e) {
   var g = e.target.closest('[data-gal]'); if (g) { setGal(gal.i + (+g.dataset.gal)); return; }
   var t = e.target.closest('[data-thumb]'); if (t) { setGal(+t.dataset.thumb); return; }
   if (e.target.closest('#shareBtn')) shareCurrent();
 });
-var tx = null;
-$('sheetBody').addEventListener('touchstart', function (e) { if (e.target.closest('#galMain')) tx = e.touches[0].clientX; }, { passive: true });
-$('sheetBody').addEventListener('touchend', function (e) {
-  if (tx === null) return;
-  var dx = e.changedTouches[0].clientX - tx; tx = null;
-  if (Math.abs(dx) > 45 && gal.p && gal.p.foto.length > 1) setGal(gal.i + (dx < 0 ? 1 : -1));
-}, { passive: true });
+$('buybar').addEventListener('click', function (e) { if (e.target.closest('#shareBtn2')) shareCurrent(); });
 document.addEventListener('keydown', function (e) {
   if (sheet.open && gal.p && gal.p.foto.length > 1) {
     if (e.key === 'ArrowRight') setGal(gal.i + 1);
@@ -762,7 +895,10 @@ $('q').addEventListener('input', function () {
   $('q')._t = setTimeout(function () { S.q = v; renderGrid(); }, 140);
 });
 $('qClear').addEventListener('click', function () { $('q').value = ''; S.q = ''; $('searchBox').classList.remove('has-q'); renderGrid(); $('q').focus(); });
-$('sort').addEventListener('change', function () { S.sort = this.value; renderGrid(); });
+$('sort2').innerHTML = $('sort').innerHTML;
+function onSort(v) { S.sort = v; $('sort').value = v; $('sort2').value = v; renderGrid(); }
+$('sort').addEventListener('change', function () { onSort(this.value); });
+$('sort2').addEventListener('change', function () { onSort(this.value); });
 
 $('chips').addEventListener('click', function (e) {
   var b = e.target.closest('button'); if (!b) return;
@@ -784,14 +920,22 @@ $('grid').addEventListener('click', function (e) {
   e.preventDefault(); openSheet(c.dataset.sku);
 });
 $('hero').addEventListener('click', function (e) {
-  var d = e.target.closest('[data-hero]'); if (d) { showHero(+d.dataset.hero); clearInterval(heroTimer); return; }
+  var st = e.target.closest('[data-hstep]'); if (st) { heroGo(heroIdx + (+st.dataset.hstep)); return; }
+  var d = e.target.closest('[data-hero]'); if (d) { heroGo(+d.dataset.hero); return; }
   var o = e.target.closest('[data-open]'); if (o) openSheet(o.dataset.open);
 });
-$('hero').addEventListener('mouseenter', function () { clearInterval(heroTimer); });
-$('hero').addEventListener('mouseleave', function () {
-  var n = document.querySelectorAll('.hero-slide').length;
-  if (n > 1 && !reduceMotion) startHero(n);
-});
+var hbox = $('hero'), htx = null;
+hbox.addEventListener('mouseenter', function () { hp.hover = true; });
+hbox.addEventListener('mouseleave', function () { hp.hover = false; });
+hbox.addEventListener('focusin', function () { hp.focus = true; });
+hbox.addEventListener('focusout', function () { hp.focus = false; });
+hbox.addEventListener('touchstart', function (e) { htx = e.touches[0].clientX; hp.touch = true; }, { passive: true });
+hbox.addEventListener('touchend', function (e) {
+  hp.touch = false;
+  if (htx === null) return;
+  var dx = e.changedTouches[0].clientX - htx; htx = null;
+  if (Math.abs(dx) > 40) heroGo(heroIdx + (dx < 0 ? 1 : -1));
+}, { passive: true });
 
 /* ---------- start ---------- */
 if (window.innerWidth > 640) $('q').placeholder = 'Cari nama produk, fitur, atau SKU';
