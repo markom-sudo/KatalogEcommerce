@@ -611,7 +611,8 @@ function prep(p) {
   p._promo = best;
   p._price = p._main ? p._main.final : Infinity;
   p._fitur = p.garansi ? (p.fitur || []).filter(function (f) { return !/^garansi\b/i.test(f); }) : (p.fitur || []);
-  p._idx = norm([p.nama, p.varian, p.sku, p.kategori, (p.fitur || []).join(' '), p.deskripsi].join(' '));
+  p._kunci = norm((p.kunci || []).join(' '));
+  p._idx = norm([p.nama, p.varian, p.sku, p.kategori, (p.kunci || []).join(' '), (p.fitur || []).join(' '), p.deskripsi].join(' '));
   p._nama = norm(p.nama + ' ' + p.varian);
   p._sku = norm(p.sku);
   return p;
@@ -721,7 +722,7 @@ function score(p, tk) {
   for (var i = 0; i < tk.length; i++) {
     var t = tk[i];
     if (p._idx.indexOf(t) < 0) return -1;
-    sc += (p._nama.indexOf(t) > -1 ? 3 : 0) + (p._sku.indexOf(t) > -1 ? 2 : 0) + 1;
+    sc += (p._nama.indexOf(t) > -1 ? 3 : 0) + (p._kunci.indexOf(t) > -1 ? 3 : 0) + (p._sku.indexOf(t) > -1 ? 2 : 0) + 1;
   }
   return sc;
 }
