@@ -2,10 +2,17 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Katalog Produk Elitech</title>
 <meta name="description" content="Katalog produk Elitech: harga marketplace, promo berjalan, garansi, dan isi paket.">
 <meta name="theme-color" content="#00332F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/Icon%20192.png">
+<link rel="apple-touch-icon" href="assets/Icon%20512.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Elitech">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -369,6 +376,26 @@ html{-webkit-tap-highlight-color:transparent}
   .tag.out{bottom:6px;top:auto;font-size:11.5px}
   footer{padding:20px 0 calc(20px + env(safe-area-inset-bottom))}
 }
+
+/* ============================================================
+   TAMBAHAN: tombol pasang, area aman (aplikasi terpasang), dialog iOS
+   ============================================================ */
+:root{--sat:env(safe-area-inset-top,0px)}
+.site-header{height:calc(var(--hh) + var(--sat));padding-top:var(--sat)}
+.toolbar{top:calc(var(--hh) + var(--sat))}
+.install{flex:none;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 15px;border-radius:999px;background:var(--aqua);color:var(--deep);font-weight:700;font-size:14.5px;transition:background .15s}
+.install:hover{background:#7BEDE8}
+.install[hidden]{display:none}
+.install .i{font-size:18px}
+dialog.mini{border:0;border-radius:20px;padding:22px 22px 20px;width:min(380px,calc(100vw - 32px));background:var(--surface);color:var(--ink);margin:auto}
+dialog.mini::backdrop{background:rgba(3,22,20,.62)}
+dialog.mini h3{font-family:var(--display);font-size:20px;margin-bottom:10px}
+dialog.mini ol{margin:0 0 18px 20px;display:grid;gap:8px;color:var(--ink-2)}
+dialog.mini .btn{width:100%}
+@media (max-width:700px){
+  .install{width:40px;padding:0;justify-content:center}
+  .install span{display:none}
+}
 </style>
 </head>
 <body>
@@ -383,6 +410,10 @@ html{-webkit-tap-highlight-color:transparent}
       <span class="kbd" aria-hidden="true">/</span>
       <button type="button" class="clear" id="qClear" aria-label="Hapus pencarian"><svg class="i" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </form>
+    <button class="install" id="installBtn" type="button" hidden aria-label="Pasang aplikasi Elitech">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10.5 12 15.5l5-5M5 20h14"/></svg>
+      <span>Pasang</span>
+    </button>
   </div>
 </header>
 
@@ -441,6 +472,15 @@ html{-webkit-tap-highlight-color:transparent}
   <button class="sheet-x" id="sheetX" aria-label="Tutup"><svg class="i" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   <div class="sheet-scroll" id="sheetBody"></div>
   <div class="buybar" id="buybar"></div>
+</dialog>
+<dialog class="mini" id="iosHelp" aria-label="Cara memasang aplikasi">
+  <h3>Pasang di iPhone / iPad</h3>
+  <ol>
+    <li>Buka halaman ini di <b>Safari</b>.</li>
+    <li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas).</li>
+    <li>Pilih <b>Tambah ke Layar Utama</b>, lalu ketuk <b>Tambah</b>.</li>
+  </ol>
+  <button class="btn btn-teal" id="iosHelpClose" type="button">Mengerti</button>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
 
@@ -936,6 +976,28 @@ hbox.addEventListener('touchend', function (e) {
   var dx = e.changedTouches[0].clientX - htx; htx = null;
   if (Math.abs(dx) > 40) heroGo(heroIdx + (dx < 0 ? 1 : -1));
 }, { passive: true });
+
+/* ---------- pasang aplikasi (PWA) ---------- */
+var deferredPrompt = null, ib = $('installBtn');
+var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function isStandalone() { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+function syncInstall() { ib.hidden = isStandalone() || !(deferredPrompt || isIOS); }
+window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; syncInstall(); });
+window.addEventListener('appinstalled', function () { deferredPrompt = null; syncInstall(); toast('Aplikasi berhasil dipasang'); });
+ib.addEventListener('click', function () {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () {}, function () {}).then(function () { deferredPrompt = null; syncInstall(); });
+  } else if (isIOS) { $('iosHelp').showModal(); }
+});
+$('iosHelpClose').addEventListener('click', function () { $('iosHelp').close(); });
+$('iosHelp').addEventListener('click', function (e) { if (e.target === this) this.close(); });
+syncInstall();
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function (err) { if (window.console) console.warn('SW:', err); });
+  });
+}
 
 /* ---------- start ---------- */
 if (window.innerWidth > 640) $('q').placeholder = 'Cari nama produk, fitur, atau SKU';
