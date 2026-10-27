@@ -883,7 +883,8 @@ function detail(p) {
     promoBox + priceSec + war + pack + feat + desc + specSec + dlSec + '</div>';
 }
 var sheet = $('sheet');
-function openSheet(sku, noHash) {
+var sheetPushed = false;   // true = detail ini punya satu entri di riwayat browser
+function openSheet(sku, fromPop) {
   var p = BY[sku]; if (!p) return;
   gal.p = p; gal.i = 0;
   $('sheetBody').innerHTML = detail(p);
@@ -891,14 +892,37 @@ function openSheet(sku, noHash) {
   $('sheetBody').scrollTop = 0;
   bindGal();
   if (!sheet.open) { sheet.showModal(); document.documentElement.style.overflow = 'hidden'; }
-  if (!noHash) history.replaceState(null, '', '#' + encodeURIComponent(sku));
+  // Satu langkah riwayat per detail: tombol/gestur "kembali" menutup detail, bukan keluar dari aplikasi
+  if (fromPop) sheetPushed = true;
+  else if (!sheetPushed) { history.pushState({ sheet: 1 }, '', '#' + encodeURIComponent(sku)); sheetPushed = true; }
+  else history.replaceState({ sheet: 1 }, '', '#' + encodeURIComponent(sku));
   document.title = p.nama + ' | Katalog Elitech';
 }
-sheet.addEventListener('close', function () {
+sheet.addEventListener('close', function () {      // ditutup lewat X, Esc, area gelap, atau geser
   document.documentElement.style.overflow = '';
-  history.replaceState(null, '', location.pathname + location.search);
   document.title = 'Katalog Produk Elitech';
+  if (sheetPushed) { sheetPushed = false; history.back(); }   // buang entri riwayat milik detail
 });
+window.addEventListener('popstate', function () {  // tombol/gestur back sistem
+  if (sheet.open) { sheetPushed = false; sheet.close(); return; }
+  var h = decodeURIComponent((location.hash || '').slice(1));
+  if (h && BY[h]) openSheet(h, true);              // maju (forward) ke detail
+});
+// Geser dari tepi kiri ke kanan, atau dari tepi kanan ke kiri = kembali (tutup detail)
+var sw = { x: 0, y: 0, edge: '', gal: 0, on: false };
+sheet.addEventListener('touchstart', function (e) {
+  var t = e.touches[0], w = window.innerWidth, tr = $('galTrack');
+  sw.edge = t.clientX <= 24 ? 'L' : (t.clientX >= w - 24 ? 'R' : '');
+  sw.x = t.clientX; sw.y = t.clientY; sw.gal = tr ? tr.scrollLeft : 0; sw.on = true;
+}, { passive: true });
+sheet.addEventListener('touchend', function (e) {
+  if (!sw.on || !sw.edge) { sw.on = false; return; }
+  sw.on = false;
+  var t = e.changedTouches[0], dx = t.clientX - sw.x, dy = Math.abs(t.clientY - sw.y), tr = $('galTrack');
+  var galMoved = tr && Math.abs(tr.scrollLeft - sw.gal) > 2;      // itu geseran galeri, bukan gestur kembali
+  var ok = (sw.edge === 'L' && dx > 70) || (sw.edge === 'R' && dx < -70);
+  if (ok && Math.abs(dx) > dy * 1.5 && !galMoved) sheet.close();
+}, { passive: true });
 sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
 $('sheetX').addEventListener('click', function () { sheet.close(); });
 $('sheetBody').addEventListener('click', function (e) {
@@ -1012,7 +1036,10 @@ load().then(function (d) {
   }
   renderHero(); refresh();
   var h = decodeURIComponent((location.hash || '').slice(1));
-  if (h && BY[h]) openSheet(h, true);
+  if (h && BY[h]) {                 // tautan langsung: jadikan katalog sebagai entri dasar, detail di atasnya
+    history.replaceState(null, '', location.pathname + location.search);
+    openSheet(h);
+  }
 }).catch(function (err) {
   $('hero').closest('.hero').style.display = 'none';
   $('count').textContent = '';
