@@ -745,7 +745,11 @@ function filtered() {
     diskon:   function (a, b) { return ((b.p._main && b.p._main.pct) || 0) - ((a.p._main && a.p._main.pct) || 0); },
     az:       function (a, b) { return a.p.nama.localeCompare(b.p.nama, 'id') || a.p.varian.localeCompare(b.p.varian, 'id'); }
   }[S.sort];
-  out.sort(function (a, b) { return (b.sc - a.sc) || by(a, b); });
+  out.sort(function (a, b) {
+    var ha = a.p.tersedia === false ? 1 : 0;
+    var hb = b.p.tersedia === false ? 1 : 0;
+    return (ha - hb) || (b.sc - a.sc) || by(a, b);
+  });
   return out.map(function (x) { return x.p; });
 }
 
